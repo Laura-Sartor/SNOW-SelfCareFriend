@@ -1,0 +1,628 @@
+<?php
+session_start();
+include("../conexao.php");
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['id_usuario'])) {
+    header("Location: ../../login/autentica&login.php");
+    exit();
+}
+
+$id_usuario = $_SESSION['id_usuario'];
+
+if (!$id) {
+    die("Erro de conexão com o banco de dados");
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href='https://cdn.boxicons.com/3.0.3/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <title>Feedback - SNOW</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Madimi One', sans-serif;
+        }
+
+        :root {
+            --primary-color: #ffffff;
+            --yellow: #FFBD13;
+            --blue: #4383FF;
+            --blue-d-1: #3278FF;
+            --light: #f5f5f5;
+            --grey: #AAA;
+            --white: #FFF;
+            --shadow: 8px 8px 30px rgba(0,0,0,0.5);
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* BODY */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: var(--light);
+            
+    background-color: rgb(101, 141, 169);
+            display: flex;
+            flex-direction: column;
+            padding-top: 60px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        /* NAVBAR SUPERIOR - Atualizada */
+        .top-navbar {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 15px;
+            height: 50px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover img {
+            transform: scale(1.05);
+        }
+
+        .navbar-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            margin: 0 15px;
+        }
+
+        .navbar {
+            display: flex;
+            list-style: none;
+            gap: 99px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar li a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-size: 13px;
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navbar li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .navbar li a:hover::before {
+            left: 100%;
+        }
+
+        .navbar li a:hover {
+            background-color: rgba(101, 141, 169, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .navbar li.active a {
+            background-color: rgba(101, 141, 169, 0.2);
+            font-weight: 600;
+            transform: translateY(-1px);
+        }
+
+        .navbar li a i {
+            transition: transform 0.3s ease;
+        }
+
+        .navbar li a:hover i {
+            transform: scale(1.2);
+        }
+
+        .user-section {
+            position: relative;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .user-info:hover {
+            background-color: rgba(101, 141, 169, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #db7434ff, #2980b9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .user-info:hover .user-avatar {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .user-menu {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            padding: 8px 0;
+            min-width: 160px;
+            display: none;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .user-menu.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .user-menu-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
+            transition: all 0.3s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .user-menu-item:hover {
+            background-color: rgba(101, 141, 169, 0.1);
+            padding-left: 20px;
+        }
+
+        .user-menu-divider {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 4px 0;
+        }
+
+        /* Conteúdo do Feedback */
+        .feedback-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 140px);
+            width: 100%;
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .wrapper {
+            background: var(--white);
+            padding: 2rem;
+            max-width: 576px;
+            width: 90%;
+            border-radius: .75rem;
+            box-shadow: var(--shadow);
+            margin: 0 auto;
+        }
+
+        .wrapper h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            background: var(--light);
+            padding: 1rem;
+            border-radius: .5rem;
+            border: none;
+            outline: none;
+            resize: none;
+            margin-bottom: .5rem;
+        }
+
+        .btngroup {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .btngroup .btn {
+            padding: 12px 35px;
+            border-radius: 50px;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btngroup .btnsubmit {
+            background: #4383FF;
+            color: white;
+        }
+
+        .btngroup .btnsubmit:hover {
+            background: #3278FF;
+            transform: translateY(-2px);
+        }
+
+        .btngroup .btncancel {
+            background: transparent;
+            color: #4383FF;
+            border: 2px solid #4383FF;
+        }
+
+        .btngroup .btncancel:hover {
+            background: #4383FF;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .date-input {
+            margin-bottom: 1.5rem;
+        }
+
+        .date-input label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .date-input input[type="date"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: .5rem;
+            background: var(--light);
+            font-size: 1rem;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            grid-gap: 1rem;
+            margin-bottom: 2rem;
+            font-size: 2em;
+        }
+
+        .rating .bx-snowflake {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            opacity: 0.3;
+            color: #4383FF;
+        }
+
+        .rating .bx-snowflake.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* Footer Styles - Atualizado */
+        footer {
+            background-color: #457f9e;
+            padding: 20px 0;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .container-footer {
+            max-width: 1400px;
+            padding: 0 4%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-snow {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -1px;
+        }
+
+        .snowflake {
+            margin: 0 2px;
+            font-size: 20px;
+            font-weight: 300;
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .rodape-direitos {
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container-footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .logo-snow {
+                font-size: 20px;
+            }
+            
+            .navbar {
+                gap: 30px;
+            }
+            
+            .navbar li a {
+                font-size: 12px;
+                gap: 3px;
+            }
+            
+            .wrapper {
+                padding: 1.5rem;
+            }
+            
+            .btngroup {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btngroup .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Superior Atualizada -->
+    <div class="top-navbar">
+        <div class="logo">
+            <a href="../index.php">
+                <img src="logoFloco.png" alt="Logo Floco - Página Inicial">
+            </a>
+        </div>
+        
+        <div class="navbar-container">
+            <ul class="navbar">
+                <li>
+                    <a href="../agenda/agenda.php">
+                        <i class="fas fa-book"></i>
+                        <span>Diário</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../Tecnicas/tecnicas.php">
+                        <i class="fas fa-hands-helping"></i>
+                        <span>Técnicas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../historicoUsuario/graficos.php">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Histórico</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="feedback.php">
+                        <i class="fas fa-comments"></i>
+                        <span>Feedback</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="user-section">
+            <div class="user-info" id="user-menu-toggle">
+                <span id="admin-name"><?php echo $_SESSION['login']; ?></span>
+                <div class="user-avatar"><?php echo strtoupper(substr($_SESSION['login'], 0, 1)); ?></div>
+            </div>
+            <div class="user-menu" id="user-menu">
+                <a href="../login/edita_usu.php?id_usuario=<?php echo $_SESSION['id_usuario']; ?>" style="text-decoration: none; color: inherit;">
+                    <div class="user-menu-item" style="cursor: pointer;">
+                        <i class="fas fa-user"></i>
+                        <span>Meu Perfil</span>
+                    </div>
+                </a>
+                <div class="user-menu-divider"></div>
+                <div class="user-menu-item" onclick="confirmarLogout()" style="cursor: pointer;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo do Feedback -->
+    <div class="feedback-container">
+        <div class="wrapper">
+            <h3>Faça seu Feedback!</h3>
+            <form action="feedback_dados.php" method="POST" onsubmit="return confirmarEnvio()">
+                <!-- Data -->
+                <div class="date-input">
+                    <label for="data_feedback">Data do Feedback:</label>
+                    <input type="date" id="data_feedback" name="data_feedback" required>
+                </div>
+                
+                <div class="rating">
+                    <input type="hidden" name="avaliacao" id="avaliacaoInput" required>
+                    <i class='bx bx-snowflake' data-value="P"></i>
+                    <i class='bx bx-snowflake' data-value="R"></i>
+                    <i class='bx bx-snowflake' data-value="B"></i>
+                    <i class='bx bx-snowflake' data-value="E"></i>
+                    <i class='bx bx-snowflake' data-value="M"></i>
+                </div>
+                <textarea name="comentario" cols="30" rows="5" placeholder="Sua Opinião!" required></textarea>
+             
+                <div class="btngroup">
+                    <button type="submit" class="btnsubmit">Enviar</button>
+                    <button type="button" class="btncancel" onclick="limparFormulario()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Atualizado -->
+    <footer>
+        <div class="container-footer">
+            <div class="logo-snow">
+                Sn<span class="snowflake">❄</span>w
+            </div>
+            <p class="rodape-direitos">Copyright © 2024 – Todos os Direitos Reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript para o menu do usuário
+        document.getElementById('user-menu-toggle').addEventListener('click', function() {
+            document.getElementById('user-menu').classList.toggle('show');
+        });
+
+        // Fechar menu ao clicar fora
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.user-section')) {
+                document.getElementById('user-menu').classList.remove('show');
+            }
+        });
+
+        function confirmarLogout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                window.location.href = '../login/autentica&login.php';
+            }
+        }
+
+        // Confirmação de envio
+        function confirmarEnvio() {
+            if (confirm('Tem certeza que deseja enviar este feedback?')) {
+                alert('✅ Feedback enviado com sucesso!');
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function limparFormulario() {
+            if (confirm('Deseja limpar o formulário?')) {
+                document.querySelector('form').reset();
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('data_feedback').value = today;
+                document.querySelectorAll('.rating i').forEach(icon => {
+                    icon.classList.remove('active');
+                });
+                document.getElementById('avaliacaoInput').value = '';
+            }
+        }
+
+        // Sistema de rating com flocos de neve
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('data_feedback').value = today;
+
+            const snowflakes = document.querySelectorAll('.rating .bx-snowflake');
+            const avaliacaoInput = document.getElementById('avaliacaoInput');
+
+            snowflakes.forEach(snowflake => {
+                snowflake.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    
+                    // Remover classe active de todos
+                    snowflakes.forEach(sf => sf.classList.remove('active'));
+                    
+                    // Adicionar classe active até o floco clicado
+                    let found = false;
+                    snowflakes.forEach(sf => {
+                        if (!found) {
+                            sf.classList.add('active');
+                            if (sf === this) found = true;
+                        }
+                    });
+                    
+                    // Atualizar valor do input hidden
+                    avaliacaoInput.value = value;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

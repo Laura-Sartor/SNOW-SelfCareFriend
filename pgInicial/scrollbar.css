@@ -1,0 +1,25 @@
+
+/*scrollbar*/
+
+/* Estiliza a barra de rolagem inteira */
+::-webkit-scrollbar {
+    width: 12px; /* Largura da barra vertical */
+}
+
+/* Estiliza o fundo da barra (área de rastreamento) */
+::-webkit-scrollbar-track {
+    background: transparent; /* Cor de fundo neutra */
+    border-radius: 10px;
+}
+
+/* Estiliza o polegar (parte móvel) */
+::-webkit-scrollbar-thumb {
+    background-color: rgb(0, 174, 255); /* Cor vermelha, como no seu exemplo */
+    border-radius: 10px; /* Bordas arredondadas */
+    border: 2px solid #f1f1f1; /* Borda para separar do fundo */
+}
+
+/* Estiliza o polegar quando hover (opcional) */
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(0, 135, 198); /* Cor mais escura no hover */
+}

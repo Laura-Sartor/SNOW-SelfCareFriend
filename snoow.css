@@ -1,0 +1,375 @@
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Madimi One', sans-serif;
+}
+
+body {
+    min-height: 1000px;
+    display: flex;
+    flex-direction: column;
+    background-image: url('fundoSnow1.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #628fa7;
+    padding-top: 80px !important;
+}
+
+/* Conteúdo principal - vai crescer para empurrar o footer para baixo */
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 46px;
+    flex-wrap: wrap;
+}
+
+/* NAVBAR SUPERIOR - Atualizada */
+.top-navbar {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 15px;
+    height: 50px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.logo img {
+    height: 60px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover img {
+    transform: scale(1.05);
+}
+
+.navbar-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    margin: 0 15px;
+}
+
+.navbar {
+    display: flex;
+    list-style: none;
+    gap: 99px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Madimi One', sans-serif;
+}
+
+.navbar li a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+.navbar li a:hover::before {
+    left: 100%;
+}
+
+.navbar li a:hover {
+    background-color: rgba(101, 141, 169, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.navbar li.active a {
+    background-color: rgba(101, 141, 169, 0.2);
+    font-weight: 600;
+    transform: translateY(-1px);
+}
+
+.navbar li a i {
+    transition: transform 0.3s ease;
+}
+
+.navbar li a:hover i {
+    transform: scale(1.2);
+}
+
+/* SEÇÃO DO USUÁRIO - Atualizada */
+.user-section {
+    position: relative;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.user-info:hover {
+    background-color: rgba(101, 141, 169, 0.1);
+    transform: translateY(-2px);
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgb(52, 130, 219), #2980b9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.user-info:hover .user-avatar {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.user-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    padding: 8px 0;
+    min-width: 160px;
+    display: none;
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.user-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.user-menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #333;
+    transition: all 0.3s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-family: 'Madimi One', sans-serif;
+}
+
+.user-menu-item:hover {
+    background-color: rgba(101, 141, 169, 0.1);
+    padding-left: 20px;
+}
+
+.user-menu-divider {
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 4px 0;
+}
+
+/* CARDS */
+.card {
+    background-color: #fff;
+    width: 260px;
+    height: 340px;
+    border-radius: 12px;
+    box-shadow: 4px 4px 12px #084266e8;
+}
+
+.card img {
+    width: 100%;
+    height: 140px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.card div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    height: 50%;
+}
+
+.card h1 {
+    font-size: 1.6rem;
+    color: #042c45e8;
+    font-family: 'Madimi One', sans-serif;
+}
+
+.card h2 {
+    font-size: .9rem;
+    color: rgba(66, 116, 172, 0.557);
+    font-family: 'Madimi One', sans-serif;
+}
+
+.card button {
+    margin-top: 30px;
+    background-color: rgb(61, 115, 154);
+    height: 30px;
+    border: none;
+    padding: 4px;
+    width: 100%;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Madimi One', sans-serif;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card button:hover {
+    background-color: #137de8;
+}
+
+/* LOGIN PAGE */
+.main-login {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-login {
+    width: 70vh;
+    height: 100vh;
+    display: flex;
+    margin-top: 300px;
+    margin-right: 150px;
+    flex-direction: column;
+}
+
+.left-login-image {
+    width: 55vw;
+}
+
+.right-login-image {
+    width: 35vw;
+}
+
+.right-login {
+    width: 10vw;
+    height: 100vh;
+    display: flex;
+}
+
+/* FOOTER - Atualizado */
+footer {
+    background-color: #457f9e;
+    padding: 20px 0;
+    margin-top: auto;
+    width: 100%;
+}
+
+.container-footer {
+    max-width: 1400px;
+    padding: 0 4%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-snow {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    font-family: 'Madimi One', sans-serif;
+}
+
+.snowflake {
+    margin: 0 2px;
+    font-size: 20px;
+    font-weight: 300;
+    animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.rodape-direitos {
+    color: white;
+    font-size: 14px;
+    font-family: 'Madimi One', sans-serif;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .container-footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .logo-snow {
+        font-size: 20px;
+    }
+    
+    .main-content {
+        gap: 20px;
+        padding: 20px 10px;
+    }
+    
+    .navbar {
+        gap: 30px;
+    }
+    
+    .navbar li a {
+        font-size: 12px;
+        gap: 3px;
+    }
+    
+    .left-login {
+        margin-top: 150px;
+        margin-right: 50px;
+    }
+}

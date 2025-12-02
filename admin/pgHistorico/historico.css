@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap'); 
+
+:root {
+            
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Madimi One', sans-serif;
+        }
+        
+        body {
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            
+        background-image: url(fundoo.jpg);
+        }
+        body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url(fundoo.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        z-index: -1;
+}
+       
+        .top-navbar {
+            background-color: var(--primary-color);
+            color: rgb(85, 103, 207);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 15px;
+            height: 50px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+        }
+         .logo {
+        display: flex;
+        align-items: center;
+}
+
+        .logo img {
+        height: 60px;
+        width: auto;
+}
+        
+        .navbar-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            margin: 0 15px;
+        }
+        
+        .navbar {
+            display: flex;
+            list-style: none;
+            gap: 99px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar li {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        .navbar li a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            transition: background-color 0.3s;
+            border-radius: var(--border-radius);
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        
+        /* Hover discreto - SEM AZUL FORTE */
+        .navbar li a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .navbar li.active a {
+            background-color: rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+        }
+
+    .user-section {
+            position: relative;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 3px 6px;
+            border-radius: var(--border-radius);
+            transition: background-color 0.3s;
+        }
+        
+        .user-info:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        #admin-name {
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        
+        /* Menu do usuário */
+        .user-menu {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 6px 0;
+            min-width: 150px;
+            display: none;
+            z-index: 100;
+        }
+        
+        .user-menu.show {
+            display: block;
+        }
+        
+        .user-menu-item {
+            padding: 6px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-color);
+            transition: background-color 0.3s;
+            font-size: 13px;
+        }
+        
+        .user-menu-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .user-menu-divider {
+            height: 1px;
+            background-color: #eee;
+            margin: 3px 0;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .page-header {
+            margin-bottom: 25px;
+        }
+        
+        .page-header h2 {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        
+
+         table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: rgb(0, 0, 0);
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        table {
+    width: 90%;
+    margin: 30px auto;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+}
+
+table th {
+    background: #f8f9fa;
+    color: #2c3e50;
+    padding: 15px;
+    text-align: center;
+    font-weight: 600;
+}
+
+table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #f1f3f4;
+    color: #5a6c7d;
+}
+
+table tr:hover {
+    background-color: #f8fafc;
+}
+
